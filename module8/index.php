@@ -1,7 +1,7 @@
 <?php
 //Creating a table using PDO
 $host = 'localhost';
-$db = 'db';
+$db = 'db1';
 $user = 'root';
 $pass = '';
 
