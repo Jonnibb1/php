@@ -1,3 +1,35 @@
+<?php
+require_once("config.php");
+$error="";
+$sucess="";
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $username=mysqli_real_escape_string($conn,$_POST['username']);
+    $email=mysqli_real_escape_string($conn,$_POST['email']);
+ 
+    $password=mysqli_real_escape_string($conn,$_POST['password']);
+
+    if(empty($username) || empty($email) ||empty($password)){
+        $error='All fields are required';
+    }else{
+        $check_user="SELECT * FROM users WHERE usernam='$username' OR email='email'";
+        $result=$conn->query($check_user);
+        if($result->num_row>0){
+            $error="Username or email already exist";
+        }else{
+            $hashed_password=md5($password);
+            $sql="INSERT INTO users(username,email,password) VALUES ('$username','$email','$hashed_password')";
+            if($conn->query($sql)===TRUE){
+                $sucess="Registration sucessfully !!! You can now <a herf='login.php'>Login here";
+                $error="Error:" . $conn->error;
+            }
+        }
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
